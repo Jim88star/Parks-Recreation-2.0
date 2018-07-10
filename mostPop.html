@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Link to Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style>
+        .heading {
+            text-align: center;
+        }
+
+        button {
+            border: none;
+            outline: 0;
+            display: inline-block;
+            padding: 8px;
+            color: white;
+            background-color: black;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        button:hover {
+            opacity: 0.7;
+        }
+
+        #returnMenu {
+            border: none;
+            outline: 0;
+            display: inline-block;
+            margin-top: 20px;
+            padding: 8px;
+            color: white;
+            text-align: center;
+            cursor: pointer;
+            width: 10%;
+            font-size: 18px;
+
+        }
+
+        .container {
+            position: relative;
+            max-width: 1000px;
+            /* Maximum width */
+            margin: 0 auto;
+            /* Center it */
+        }
+
+        .container img {
+            vertical-align: middle;
+        }
+
+        .content {
+            transition: all 2.0s ease-in;
+            position: absolute;
+            bottom: 300px;
+
+            color: blue;
+            width: 70%;
+            padding: 10px;
+            margin: 0 auto;
+            left: 0;
+            opacity: 1;
+        }
+
+        .content.animate {
+            transition: all 2.0s ease-in;
+            opacity: 0;
+            left: 150px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- nav bar -->
+    <nav>
+        <div class="nav-wrapper blue-grey darken-2">
+            <a href="#!" class="brand-logo">
+                <img src="./assets/img/trail.jpg" input type="button" onclick="window.close();" style="width: 60px; height: 60px;">
+
+
+
+                <div class="heading">
+                    <h1 id="heading">National Park's Most Popular States in the Nation</h1>
+
+
+                    <div class="container">
+                        <img src="./assets/img/heart.jpeg" alt="cape" style="width:80%;">
+
+                        <div class="content animate">
+                            <h1 id="mostPopState">The Top-3 Most Popular States Are:</h1>
+                            <h1 id="others"></h1>
+
+                        </div>
+
+                    </div>
+                    <button id="returnMenu" onclick="window.close();">Return to Main Menu</button>
+
+                </div>
+
+
+
+
+
+                <script>
+                    $(document).ready(function () {
+                        $('.content').removeClass('animate');
+                    });
+                    
+                    // Initialize Firebase
+                    var config = {
+                        apiKey: "AIzaSyBdH8fV6qTKI6xTkplHXw-rhvDXGU5fpKI",
+                        authDomain: "parksandrecreation2-69d5a.firebaseapp.com",
+                        databaseURL: "https://parksandrecreation2-69d5a.firebaseio.com",
+                        projectId: "parksandrecreation2-69d5a",
+                        storageBucket: "",
+                        messagingSenderId: "253408839338"
+                    };
+                    firebase.initializeApp(config);
+
+                    // Get a reference to the database service
+                    var database = firebase.database();
+
+                    database.ref().orderByChild("numClicks").limitToLast(3).on("child_added", function (snapshot) {
+                        $("#others").prepend(`<p>${snapshot.val().stateName} with ${snapshot.val().numClicks} clicks!</p>`);
+                    })
+
+                </script>
+
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+
+</body>
+
+</html>
